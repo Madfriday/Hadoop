@@ -51,7 +51,7 @@ hadoop由3个核心组件组成：
 1.4 hdfs安装搭建 
   * 准备n台服务器  
   * 一台作namenode，其余作datanode
-  * 修改各台主机名以及ip地址：  
+  * 修改各台主机名以及ip地址 vi /etc/sysconfig/network：  
   
   |主机名|ip地址|
   |---|---|
@@ -99,10 +99,10 @@ scp /etc/hosts hdp-04:/etc/
 3)	指定namenode软件存储元数据的本地目录  
 4)	指定datanode软件存放文件块的本地目录  
 
-1) vi /root/apps/hadoop/etc/hadoop/hadoop-env.sh  
+(1) vi /root/apps/hadoop/etc/hadoop/hadoop-env.sh  
 export JAVA_HOME=/root/apps/jdk1.8.0_60
 
-2) vi /root/apps/hadoop/etc/hadoop/core-site.xml 
+(2) vi /root/apps/hadoop/etc/hadoop/core-site.xml 
 
 ```
 <configuration>  
@@ -115,7 +115,7 @@ export JAVA_HOME=/root/apps/jdk1.8.0_60
 
  
  
- 3) vi /root/apps/hadoop/etc/hadoop/hdfs-site.xml
+(3) vi /root/apps/hadoop/etc/hadoop/hdfs-site.xml
 ```
 <configuration>
 <property>
@@ -136,7 +136,7 @@ export JAVA_HOME=/root/apps/jdk1.8.0_60
 </configuration>
 ```  
 
-4) 拷贝整个hadoop安装目录到其他机器
+(4) 拷贝整个hadoop安装目录到其他机器
 
 * 启动HDFS  
 
