@@ -46,4 +46,57 @@ hadoop由3个核心组件组成：
 * hdfs的工作机制：
 1. 客户把一个文件存入hdfs系统中，活动方式会把这个文件切分成多个块后，分布存储在N个服务器上(datanode)  
 2. 当多个block块存在多台datanode上时，需要一台机器记录存放规则信息(namenode)  
-3. 为了防止分散的块丢失，需要将每一个block指定n个副本存放在datanode上
+3. 为了防止分散的块丢失，需要将每一个block指定n个副本存放在datanode上  
+
+1.4 hdfs安装搭建 
+  * 准备n台服务器  
+  * 一台作namenode，其余作datanode
+  * 修改各台主机名以及ip地址：  
+  
+  |主机名|ip地址|
+  |---|---|
+  |node1|192.168.9.11|
+  |slave1|192.168.9.12|
+  |slave2|192.168.9.13|
+  |slave3|192.168.9.14|
+  
+  * 从windows中用CRT软件进行远程连接:  
+  在windows中将各台linux机器的主机名配置到的windows的本地域名映射文件中：c:/windows/system32/drivers/etc/hosts
+ 192.168.9.11 node1   
+ 192.168.9.12 slave1  
+ 192.168.9.13 slave2  
+ 192.168.9.14 slave3
+  
+  * 配置linux服务器的基础环境:  
+ 关闭防火墙：service iptables stop    
+关闭防火墙自启： chkconfig iptables off
+
+* 安装JDK：  
+配置环境变量：  
+vi /etc/profile，在文件的最后，加入：
+export JAVA_HOME=/root/apps/jdk1.8.0_60  
+export PATH=$PATH:$JAVA_HOME/bin  
+修改完成后，记得 source /etc/profile使配置生效  
+
+* 集群主机域名映射：  
+在namenode上，vi /etc/hosts:  
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+ 192.168.9.11 node1   
+ 192.168.9.12 slave1  
+ 192.168.9.13 slave2  
+ 192.168.9.14 slave3  
+ 然后，将hosts文件拷贝到集群中的所有其他机器上  
+scp /etc/hosts hdp-02:/etc/  
+scp /etc/hosts hdp-03:/etc/  
+scp /etc/hosts hdp-04:/etc/  
+
+ 
+ 
+
+  
+
+
+  
+   
+  
