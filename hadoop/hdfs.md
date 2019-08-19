@@ -27,9 +27,9 @@ hadoop由3个核心组件组成：
 * 分布式资源调度平台 -- YARN  
 
 1.3 hdfs运行机制
-<p align='Center'>
-![HDFSA示意图](images/hdfs原理1.png "hdfs原理图")
-</p>
+
+![HDFSA示意图](images/hdfs原理1.png "hdfs原理图") {:width="100px" height="100px"}
+
 
 
 * hdfs有着文件系统类似的结构：  
