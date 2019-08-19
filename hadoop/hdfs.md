@@ -147,10 +147,9 @@ export JAVA_HOME=/root/apps/jdk1.8.0_60
 export HADOOP_HOME=/root/apps/hadoop-2.8.1  
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin  
  ```  
- 
- 
- 初始化namenode的元数据目录：  
- 要在hdp-01上执行hadoop的一个命令来初始化namenode的元数据存储目录  :  
+
+初始化namenode的元数据目录：  
+要在hdp-01上执行hadoop的一个命令来初始化namenode的元数据存储目录  :  
 hadoop namenode -format
 
 启动namenode进程（在node1上):  
@@ -166,7 +165,35 @@ slave1
 slave2  
 slave3 
 4)	在node1上用脚本：start-dfs.sh 来自动启动整个集群  
-5)	如果要停止，则用脚本：stop-dfs.sh  
+5)	如果要停止，则用脚本：stop-dfs.sh    
+
+1.5 hdfs客户端的常用操作命令  
+1. 上传文件到hdfs中
+
+hadoop fs -put /本地文件  /aaa
+
+
+2. 下载文件到客户端本地磁盘
+hadoop fs -get /hdfs中的路径   /本地磁盘目录  
+
+3. 在hdfs中创建文件夹  
+hadoop fs -mkdir  -p /aaa/xxx  
+
+
+4. 移动hdfs中的文件（更名）  
+hadoop fs -mv /hdfs的路径1  /hdfs的另一个路径2,复制hdfs中的文件到hdfs的另一个目录  
+hadoop fs -cp /hdfs路径_1  /hdfs路径_2  
+ 
+
+5. 删除hdfs中的文件或文件夹  
+hadoop fs -rm -r /aaa  
+
+
+6. 查看hdfs中的文本文件内容  
+hadoop fs -cat /demo.txt  
+hadoop fs -tail -f /demo.txt  
+
+
 
 
 
