@@ -30,7 +30,7 @@ hadoop由3个核心组件组成：
 
 
 <div align="center">
-	<img src="images/hdfs原理1.png" width="1600" height="1400">
+	<img src="images/hdfs原理1.png" width="1900" height="1700">
 </div>
 
 
