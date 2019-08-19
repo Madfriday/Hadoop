@@ -91,6 +91,88 @@ scp /etc/hosts hdp-02:/etc/
 scp /etc/hosts hdp-03:/etc/  
 scp /etc/hosts hdp-04:/etc/  
 
+* 安装hdfs集群：  
+上传hadoop到namenode上，修改配置文件：  
+核心配置参数：  
+1)	指定hadoop的默认文件系统为：hdfs  
+2)	指定hdfs的namenode节点为哪台机器  
+3)	指定namenode软件存储元数据的本地目录  
+4)	指定datanode软件存放文件块的本地目录  
+
+1) vi /root/apps/hadoop/etc/hadoop/hadoop-env.sh  
+export JAVA_HOME=/root/apps/jdk1.8.0_60
+
+2) vi /root/apps/hadoop/etc/hadoop/core-site.xml 
+
+```
+<configuration>  
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://node1:9000</value>
+</property>
+</configuration>
+```
+
+ 
+ 
+ 3) vi /root/apps/hadoop/etc/hadoop/hdfs-site.xml
+```
+<configuration>
+<property>
+<name>dfs.namenode.name.dir</name>
+<value>/root/hdpdata/name/</value>
+</property>
+
+<property>
+<name>dfs.datanode.data.dir</name>
+<value>/root/hdpdata/data</value>
+</property>
+
+<property>
+<name>dfs.namenode.secondary.http-address</name>
+<value>slave1:50090</value>
+</property>
+
+</configuration>
+```  
+
+4) 拷贝整个hadoop安装目录到其他机器
+
+* 启动HDFS  
+
+要运行hadoop的命令，需要在linux环境中配置HADOOP_HOME和PATH环境变量  
+```
+vi /etc/profile  
+export JAVA_HOME=/root/apps/jdk1.8.0_60  
+export HADOOP_HOME=/root/apps/hadoop-2.8.1  
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin  
+ ```  
+ 
+ 
+ 初始化namenode的元数据目录：  
+ 要在hdp-01上执行hadoop的一个命令来初始化namenode的元数据存储目录  :  
+hadoop namenode -format
+
+启动namenode进程（在node1上):  
+hadoop-daemon.sh start namenode    
+然后，在windows中用浏览器访问namenode提供的web端口：50070    
+然后，启动众datanode们（在任意地方）hadoop-daemon.sh start datanode  
+用自动批量启动脚本来启动HDFS  
+1)	先配置hdp-01到集群中所有机器（包含自己）的免密登陆  
+2)	配完免密后，可以执行一次  ssh 0.0.0.0  
+3)	修改hadoop安装目录中/etc/hadoop/slaves（把需要启动datanode进程的节点列入）  
+node1     
+slave1    
+slave2  
+slave3 
+4)	在node1上用脚本：start-dfs.sh 来自动启动整个集群  
+5)	如果要停止，则用脚本：stop-dfs.sh  
+
+
+
+
+
+
  
  
 
