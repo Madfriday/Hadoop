@@ -29,9 +29,7 @@ hadoop由3个核心组件组成：
 1.3 hdfs运行机制
 
 
-<p align="center">
-	<img src="images/hdfs原理1.png" width="500" height="400">
-</p>
+![hdfs](images/hdfs原理1.png "hdfs")
 
 
 
