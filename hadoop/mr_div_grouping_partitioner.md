@@ -21,7 +21,7 @@
 
 
 
-* 统计要求：reduce按照orderId分组读取map产生的数据，reduce结果按orderId分区写入，求出总价sumprice最大的前3.  
+* 统计要求：reduce按照orderId分组读取map产生的数据，reduce结果按orderId分区写入，求出总价sumprice最大的前3.   
 
 * 解决过程：
 
