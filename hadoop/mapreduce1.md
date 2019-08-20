@@ -15,3 +15,5 @@
  *对于hdfs上的文件，maptask在读取时按照文件描述信息:文件路径，偏移量范围来分区；当maptask读取的问文件来自数据库时，按照库名，表名，行范围划分区。对于这些文件，负责划分切片任务由job客户端完成：扫描每一个文件，按照128M划分范围，按以上规则分区。此时yarn会开启多个yarnchild管理maptask，maptask负责对扫描到的文件按照每一行读取，调用TextInputformat读取内容，并且调用LineRecordReader()记录偏移量，产生一对kv数据，key为偏移量，value为一行文本内容Text，为map(LongWritable, Text, Context)。maptask按照一定规则切割text，再按照一定规则将其放入context中，写入mapoutputcollector所在的磁盘缓冲区，磁盘里保存的全是同样的kv数据。缓冲区为环形，每一段保存相同kv数据。通过combiner将不同机器同样kv的数据局部和，merge合并分区在不同机器磁盘上，记录分区索引。然后yarn开启多个yarnchild管理redcuetask，读取磁盘上的数据，按照索引将不同区同样kv的数据按照规则聚合，最终写入hdfs文件系统里。*
  ---
 
+
+![mapreduce](images/103.png "mapreduce")
