@@ -25,7 +25,7 @@ O:A,H,I,J
 
 * 解决过程：
 
-1.1 在map阶段，将每一行数据分key为@的好友，value为@，将其写入context传给reduce；reduce读到的数据为一个好友key以及他的所有value对象，而value值进行两两组合，就是value1，value2 有共同好友key。用一个arraylist保存这些value，在排序，从A到O，将其作为key，将原来的kery作为value写入context。
+1.1 在map阶段，将每一行数据分key为@的好友，value为@，将其写入context传给reduce；reduce读到的数据为一个好友key以及他的所有value对象，而value值进行两两组合，就是value1，value2 有共同好友key。用一个arraylist保存这些value，再排序，从A到O，将其作为key，将原来的kery作为value写入context。
 
 ```java
 public class FriendsCount {
