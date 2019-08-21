@@ -30,7 +30,7 @@ hdp20-03上：  echo 3 > /root/zkdata/myid
 * 启动zookeeper集群
 * zookeeper没有提供自动批量启动脚本，需要手动一台一台地起zookeeper进程,在每一台节点上，运行命令:  
 bin/zkServer.sh start,启动后，用jps应该能看到一个进程：QuorumPeerMain  
-
+* 通过zookeeper记录想要监听的系统或数据库的元数据信息以及集群状态。
 
 ###zookeeper应用的基本场景及基本功能
 
@@ -49,6 +49,20 @@ bin/zkServer.sh start,启动后，用jps应该能看到一个进程：QuorumPeer
 *PERSISTENT  持久的：创建者就算跟集群断开联系，该类节点也会持久存在与zk集群中*  
 *EPHEMERAL  短暂的：创建者一旦跟集群断开联系，zk就会将这个节点删除*    
 *SEQUENTIAL  带序号的：这类节点，zk会自动拼接上一个序号，而且序号是递增的*  
+
+
+###zookeeper具体使用
+
+```
+创建节点： create /aaa 'ppppp'  
+查看节点下的子节点：   ls /aaa  
+获取节点的value： get /aaa  
+修改节点的value： set /aaa 'mmmmm'  
+删除节点：rmr /aaa  
+监听数据功能：ls /aaa watch
+获取数据： get /aaa watch
+```
+
 
 
 
