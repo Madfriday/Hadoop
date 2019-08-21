@@ -220,7 +220,8 @@ public class T1 {
 }
 ```
 
+* hbase整体工作示意图  
 
-
+![habase](images/habase1.png "habase")
 
 
