@@ -46,9 +46,9 @@ bin/zkServer.sh start,启动后，用jps应该能看到一个进程：QuorumPeer
   
   
 2. zookeeper中的znode有多种类型：  
-  1. *PERSISTENT  持久的：创建者就算跟集群断开联系，该类节点也会持久存在与zk集群中*  
-  2. *EPHEMERAL  短暂的：创建者一旦跟集群断开联系，zk就会将这个节点删除*    
-  3. *SEQUENTIAL  带序号的：这类节点，zk会自动拼接上一个序号，而且序号是递增的*  
+*PERSISTENT  持久的：创建者就算跟集群断开联系，该类节点也会持久存在与zk集群中*  
+*EPHEMERAL  短暂的：创建者一旦跟集群断开联系，zk就会将这个节点删除*    
+*SEQUENTIAL  带序号的：这类节点，zk会自动拼接上一个序号，而且序号是递增的*  
 
 
 
