@@ -8,7 +8,7 @@
 * 安装mysql的server包,rpm -ivh MySQL-server-5.6.26-1.linux_glibc2.5.x86_64.rpm   
 * 依赖报错：缺perl,yum install perl,安装完perl后 ，继续重新安装mysql-server
 
-```python
+```
 [root@mylove ~]# rpm -ivh MySQL-server-5.6.26-1.linux_glibc2.5.x86_64.rpm   
 又出错：包冲突conflict with  
 移除老版本的冲突包：mysql-libs-5.1.73-3.el6_5.x86_64
@@ -42,7 +42,7 @@ mysql> show databases;
 
 * vi conf/hive-site.xml:
 
-```python
+```
 <configuration>
 <property>
 <name>javax.jdo.option.ConnectionURL</name>
@@ -75,4 +75,6 @@ mysql> show databases;
 * source /etc/profile,hive启动测试
 
 
-1.3 
+1.3 各种数据库之间的区别：
+
+![diff](iamges/diff.png "diff")
