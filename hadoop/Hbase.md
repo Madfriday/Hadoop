@@ -89,7 +89,7 @@ Hbase> status   // 查看集群状态
 Hbase> version  // 查看集群版本  
 
 
-*hbase javaAPI操作：
+* hbase javaAPI操作：
 
 ```java
 public class T1 {
