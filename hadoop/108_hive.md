@@ -75,6 +75,26 @@ mysql> show databases;
 * source /etc/profile,hive启动测试
 
 
-1.3 各种数据库之间的区别：
+1.3 hive的操作：
 
-![diff](iamges/diff.png "diff")
+外部表(EXTERNAL_TABLE)：表目录由建表用户自己指定 
+
+```
+create external table t_access(ip string,url string,access_time string)  
+row format delimited  
+fields terminated by ','  
+location '/access/log';  
+```
+
+*外部表和内部表的特性差别：  
+1、内部表的目录在hive的仓库目录中 VS 外部表的目录由用户指定  
+2、drop一个内部表时：hive会清除相关元数据，并删除表数据目录  
+3、drop一个外部表时：hive只会清除相关元数据*
+
+带分区的表
+```
+create table t_access(ip string,url string,access_time string)
+partitioned by(dt string)
+row format delimited
+fields terminated by ',';
+```
