@@ -224,4 +224,6 @@ public class T1 {
 
 ![habase](images/habase1.png "habase")
 
+* 各种数据库之间的区别：
 
+![diff](iamges/diff.png "diff")
