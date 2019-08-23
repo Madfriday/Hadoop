@@ -3,12 +3,17 @@
 * Hbase 安装：  
 
 
+* hbase整体工作示意图  
+
+![habase](images/habase1.png "habase")
 
 1.上传hbase安装包
 
 2.解压
 
 3.配置hbase集群，要修改3个文件（首先zk集群已经安装好了）注意：要把hadoop的hdfs-site.xml和core-site.xml 放到hbase/conf下
+	
+	
 	
 3.1修改hbase-env.sh
 ```
@@ -79,7 +84,10 @@ hwclock -w
 3. Hbase的表中每行存储的都是一些key-value对  
 4. Hbase的表中有列族的划分，用户可以指定将哪些kv插入哪个列族  
 5. Hbase的表在物理存储上，是按照列族来分割的，不同列族的数据一定存储在不同的文  
-6. Hbase的表数据存储在HDFS文件系统中,从而，hbase具备如下特性：存储容量可以线性扩展； 数据存储的安全性可靠性极高！  
+6. Hbase的表数据存储在HDFS文件系统中,从而，hbase具备如下特性：存储容量可以线性扩展； 数据存储的安全性可靠性极高！    
+7. 各种数据库之间的区别：  
+ 
+![diff](images/diff.png "diff")
 
 * hbase 安装及使用：  
 1. HBASE是一个分布式系统，其中有一个管理角色：  HMaster(一般2台，一台active，一台backup)，其他的数据节点角色：  HRegionServer(很多台，看数据容量)  
@@ -220,10 +228,3 @@ public class T1 {
 }
 ```
 
-* hbase整体工作示意图  
-
-![habase](images/habase1.png "habase")
-
-* 各种数据库之间的区别：
-
-![diff](images/diff.png "diff")
