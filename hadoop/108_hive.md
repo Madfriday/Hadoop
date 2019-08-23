@@ -98,3 +98,97 @@ partitioned by(dt string)
 row format delimited
 fields terminated by ',';
 ```
+
+
+1.4 hive基本思想：  
+Hive是基于Hadoop的一个数据仓库工具(离线)，可以将结构化的数据文件映射为一张数据库表，并提供类SQL查询功能。
+
+![HIVE](images/hive.png "hive")
+
+* hive特点：   
+
+可扩展   
+Hive可以自由的扩展集群的规模，一般情况下不需要重启服务。  
+
+延展性   
+Hive支持用户自定义函数，用户可以根据自己的需求来实现自己的函数。  
+ 
+容错   
+良好的容错性，节点出现问题SQL仍可完成执行。  
+
+
+
+* hive 操作案例
+
+1.1 
+
+```sql
+create table t_101(name String,number int)     
+row formate delimited     
+fields terminated by ',';  
+```
+数据如下:  
+a,1  
+b,1  
+c,1  
+
+```sql
+create table t_102(name String,number int)     
+row formate delimited     
+fields terminated by ',';  
+```
+数据如下:  
+a,21  
+b,11  
+c,31  
+
+要求：将/root/t1.sh,t2.sh分别放入这两个表中，实现内连接，左连接，全外连接
+```sql
+load data local inpath '/root/t1.sh' into table t_101;
+load data local inpath '/root/t2.sh' into table t_102;
+
+内连接  
+select a.*, b.* from t_101 a join t_102 b;  
+内连接为笛卡尔积，左边一个连对面所有；  
+ 左连接  
+select a.*, b.* from t_101 a left join t_102 b on a.name = b.name;  
+全外连接  
+select a.*, b.* from t_101 a full outer join t_102 b on a.name = b.name;  
+```
+  
+  
+1.2
+
+(聚合与分组) 
+
+```sql
+create table t_103(ip String,url String,time String)     
+row formate delimited     
+fields terminated by ',';  
+```
+数据如下：  
+192.163.33.4,http://sina.com/f,2017-09-17  
+192.163.33.2,http://sina.com/b,2017-09-13  
+192.163.33.6,http://sina.com/h,2017-09-19  
+192.163.33.9,http://sina.com/c,2017-09-15  
+192.163.33.0,http://sina.com/s,2017-09-13  
+192.163.33.2,http://sina.com/f,2017-09-13  
+192.163.33.4,http://sina.com/g,2017-09-14  
+192.163.33.8,http://sina.com/p,2017-09-15  
+192.163.32.1,http://sina.com/p,2017-09-16  
+192.163.31.0,http://sina.com/i,2017-09-17  
+192.163.36.7,http://sina.com/fv2017-09-18  
+192.163.32.2,http://sina.com/b,2017-09-19  
+192.163.34.6,http://sina.com/n,2017-09-11   
+192.163.36.6,http://sina.com/m,2017-09-12  
+```
+load data local inpath '/root/t1.sh' into table t_103;
+```
+要求：1，求出ip，url（转为大写）；2，统计url的数量；3，求出每个url个数以及ip最大的；4，求每个用户ip访问的数量，访问页面以及数量以及时间最晚的。  
+
+```sql
+select ip,upper(url) from t_103;
+select url,count(1) as counts from t_103 group by url;
+select url,max(ip) from t_103 group by url;
+seelect ip,count(1) as count_ip,url,count(1) s count_url,max(time) from t_103 group by ip,url;
+```
