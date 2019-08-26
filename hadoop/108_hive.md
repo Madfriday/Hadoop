@@ -328,9 +328,9 @@ select  id,name,info.add from t_107;
 
 1.7  
 数据如下：   
-1.zhasng,a:b:c:f  
-2,li,b:d:a:c  
-3,wang,d:a:c:e 
+1.zhasng,a-b-c-f  
+2,li,b-d-a-c  
+3,wang,d-a-c-e 
 
 
 ```sql
