@@ -192,3 +192,218 @@ select url,count(1) as counts from t_103 group by url;
 select url,max(ip) from t_103 group by url;
 seelect ip,count(1) as count_ip,url,count(1) s count_url,max(time) from t_103 group by ip,url;
 ```
+
+1.3 
+```sql
+create table t_104(ip String,url String, day String)
+partitioned by (time String)
+row fromat delimited
+fields terminated by ',';
+192.168.33.1,thhp://www.cn/stu,2017-08-02  
+192.168.33.2,thhp://www.cn/cnbc,2017-08-02  
+192.168.33.1,thhp://www.cn/st21,2017-08-02  
+192.168.33.3,thhp://www.cn/stas,2017-08-02  
+192.168.33.6,thhp://www.cn/cnbc,2017-08-02  
+192.168.33.8,thhp://www.cn/sst21,2017-08-02  
+192.168.33.9,thhp://www.cn/stu,2017-08-02  
+192.168.33.0,thhp://www.cn/aka,2017-08-02  
+192.168.33.2,thhp://www.cn/aka,2017-08-02  
+192.168.33.5,thhp://www.cn/stu,2017-08-02  
+
+192.168.33.1,thhp://www.cn/stu,2017-08-03  
+192.168.33.3,thhp://www.cn/cnbc,2017-08-03  
+192.168.33.4,thhp://www.cn/st21,2017-08-03   
+192.168.33.3,thhp://www.cn/stas,2017-08-03    
+192.168.33.6,thhp://www.cn/cnbc,2017-08-03  
+192.168.33.6,thhp://www.cn/sst21,2017-08-03  
+192.168.33.1,thhp://www.cn/stu,2017-08-03  
+192.168.33.0,thhp://www.cn/aka,2017-08-03  
+192.168.33.8,thhp://www.cn/aka,2017-08-03  
+192.168.32.5,thhp://www.cn/stu,2017-08-03  
+
+192.168.33.1,thhp://www.cn/stu,2017-08-04  
+192.168.34.2,thhp://www.cn/cnbc,2017-08-04   
+192.168.36.1,thhp://www.cn/st21,2017-08-04   
+192.168.33.3,thhp://www.cn/stas,2017-08-04   
+192.168.33.6,thhp://www.cn/cnbc,2017-08-04   
+192.168.32.8,thhp://www.cn/sst21,2017-08-04   
+192.168.31.9,thhp://www.cn/stu,2017-08-04   
+192.168.39.0,thhp://www.cn/aka,2017-08-04   
+192.168.37.2,thhp://www.cn/aka,2017-08-04   
+192.168.30.5,thhp://www.cn/cnbc,2017-08-04  
+
+load data inpath '/root/t1.sh into table t_104 partition (time ='08-03)';  
+load data inpath '/root/t2.sh into table t_104 partition (time ='08-04)';  
+load data inpath '/root/t3.sh into table t_104 partition (time ='08-05)';  
+```
+
+要求：1，求8.2以后每一天http；//www.cn.stu 这条网页访问次数以及ip最大者；  
+2.求每天每一个页面访问总次数以及ip最大者;  
+3.求上述页面总访问次数小于2次的(子查询);
+
+```sql
+select time,count(1) as count)url,max(ip) from t_104 where url = 'http://www.cn/stu' and time > '2017-08-02' group by time,url;  
+select time,url,count(1) as count_url,max(ip) from t_104 group by time,url;  
+select url,count_url from (select time,url,count(1) as count_url,max(ip) from t_104 group by time,url) tmp where tmp.count_url > 2;  
+```
+
+1.4 
+
+```sql
+create table t_105(movie_name String,actors array<String>,first_show String)
+row fromat delimited
+fields terminated by ','
+collection items terminated by ':';
+```
+
+数据如下:  
+肖申克德救赎，史提夫:约翰逊:艾比利，1994-03-14   
+卧虎藏龙，周润发：杨紫琼：李安：王宝强，2002-01-21   
+蜘蛛侠，汤姆赫兰德：赞达亚杰克：吉伦哈尔，2019-06-28   
+
+要求：1，选择电影，每个电影第一个演员及首映。    
+2.选择电影及演员人数。   
+3.选择电影及演员中包括王宝强的。  
+4.选择电影，演员，首映，演员数量。   
+5.查询电影，首映，演员如果包含王宝强定义为喜剧片。  
+
+```sql
+select movie_name,actors[0], first_show from t_105;
+select movie_name,size(actors) from t_105;
+select movie_name,actors from t_105 where array_contains(actors,'王宝强');
+select movie_name,actors,first_show,size(actors) as count_actors from t_105;
+select movie_name,first_show,actors,if(array_contains(actors,'王宝强'),'喜剧片','动作片');
+```
+
+1.5
+数据如下:  
+1.zhang,father:xiao#mother:li#brother:xiaoo,28  
+2.feng,father:liu#mother:weiw#sister:xil,28  
+3.zeng,father:wei#mother:ip#brother:xis,22  
+4.zhan,father:he#mother:op#sister:xia,21  
+5.chang,father:xie#mother:op#brother:xic,23  
+6.hang,father:feng#mother:pop#sister:xij,24  
+ 
+```sql
+create table t_106 (id int,name String,family map<String,String>)  
+row fromat delimited  
+fields terminated by ','  
+collection items terminated by ':'  
+map keys terminated by ':';  
+load data local  inpath '/root/t1.sh' into table t_106;
+```
+要求：1选择id，姓名，家庭中父亲
+2.选择id，姓名，所有家庭亲属关系
+3.选择id，name，家庭成员数量
+4.查询拥有兄弟人的id，姓名
+
+```sql
+select id,name,family['father'] from  t_106
+select id,name,map_keys(family) as relation from t_106
+select id,name,size(family) from t_106
+select id,name from t_106 where array_contains(map_keys(family),'brother');
+```
+
+1.6
+数据如下:  
+1,zhang,18:male:beijing  
+2,li,11:famale:shanghai  
+3,liu,12:male:tianjing  
+4,xie:16:famale:changdu  
+5,yaun,13:famale:chengdu  
+6,xue,23:famale:shengzheng  
+7,sun,61:male:xinjia  
+
+```sql
+create table t_107(id int,name String,info struct<age:int,sex;String,add:String>)
+row fromat delimited
+fields terminated by ','
+collection items terminated by ':';
+```
+
+要求：1查询id，姓名，地址
+```sql
+select  id,name,info.add from t_107;
+```
+
+1.7  
+数据如下：   
+1.zhasng,a:b:c:f  
+2,li,b:d:a:c  
+3,wang,d:a:c:e 
+
+
+```sql
+create table t_108(id int,name String,sex array<Stirng>)
+row fromat delimited
+fields terminated by ','
+collection items terminated by ':';
+去掉sex中重复的，单独的个数
+select distinct tmp.sub from (select explode(sex) as sub from t_108) as tmp;
+```
+
+1.8
+数据如下:  
+hello tom hello jim    
+hello rose hello tom    
+tom love rose rose love jim  
+jim love tom love is what  
+what is love  
+  
+要求：统计每个词的个数
+
+```sql
+create table t_109(sentence String)
+load data local inpath '/root/t1.sh' into t_109;
+select word,count(1) from (select explode(sentence,' ') as word from t_109) tmp group by word;
+```
+
+1.9
+```sql
+create table t_110(id int,name String,age int)
+row fromat delimited
+fields terminated by ',';
+```
+数据如下:  
+1,zhang,18  
+2,li,21  
+3,liu,32  
+4,xie,46  
+5,yuan,13  
+6,xue,33  
+7,sun,61  
+8,liuu,53  
+9,yangy,22  
+
+要求：查询id，姓名，年龄且年龄<20为yong，20<age<30为mid，age>30为old
+```sql
+select id,name,case when age<20 then 'yong',
+when 20 < age < 30 then 'mid' else 'old'
+from t_110 end;
+```
+
+2.0 
+
+```sql 
+create table t_111(id int,age int,name String,sex String)
+row fromat delimited
+fields terminated by ',';
+```
+
+数据如下:  
+1,18,a,male  
+2,19,b,male  
+3,22,c,female  
+4,16,d,female  
+5,30,e,male  
+6,26,f,male  
+7,36,w,female  
+8,15,x,male  
+9,20,z,female  
+10,31,v,male  
+
+要求：求出每种性别年龄最大的两个人的id，name，sex；  
+
+```sql
+select * from (select id,name,sex,row_number() over(partition by sex order by age desc) as rn from t_111) tmp where rn <= 2;
+```
