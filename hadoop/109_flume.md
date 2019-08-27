@@ -15,6 +15,29 @@ sink将数据存储到集中存储器比如Hbase和HDFS,它从channals消费数�
 如图所示  
 ![FLUME](images/FLUME2.png "flume")
 
+
+* Flume采集系统结构图  
+1. 简单结构    
+单个agent采集数据  
+  
+![simple-flume](images/f1.png "sf")
+
+
+2. 复杂结构  
+多级agent之间串联  
+
+![simple-flume](images/f2.png "sf")
+
+
+
+* flume 安装:
+
+然后解压  tar -zxvf apache-flume-1.6.0-bin.tar.gz  
+然后进入flume的目录，修改conf下的flume-env.sh，在里面配置JAVA_HOME   
+
+
+
+
 **flume将本地磁盘/root/log/下的日志数据写入hdfs里:**
 
 ```bash
