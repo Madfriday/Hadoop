@@ -1,4 +1,4 @@
-###hive install & use
+### hive install & use
 
 1.1 mysql安装：  
 

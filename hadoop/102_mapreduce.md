@@ -1,4 +1,4 @@
-###Mapreduce工作原理
+### Mapreduce工作原理
 
 * 分布式计算原理：
   * map阶段：将hdfs中的block(128M)分给maptask，maptask按照每一行读取文本，将每一行文本按相关规则切割，形成 一组(key => value)的数据  
